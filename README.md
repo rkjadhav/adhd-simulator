@@ -1,47 +1,65 @@
-# Echoes of Choice
+🧠 ADHD Simulator (Web Game)
+A simple text-based web game that simulates the experience of trying to stay focused with ADHD.
 
-A narrative game about memories that persist across different timelines. Make choices, preserve memories, and discover how they affect your next journey.
+🎮 How to Play
+Your Focus Meter keeps draining.
 
-## About
+Random Distractions will pop up (social media, intrusive thoughts, cravings, etc.).
 
-Echoes of Choice explores a unique memory-preservation mechanic where players can carry selected memories from one playthrough to the next. The game features:
+You’ll get choices like:
 
-- A branching narrative with multiple endings
-- A memory system that tracks and displays key decisions
-- The ability to preserve memories between playthroughs
-- Dynamic theming that changes based on the mood of the story
-- Analytics to track player choices and memory preservation
+Ignore distraction
 
-## Setup
+Take a short break
 
-The game runs entirely in the browser with no additional installations required.
+Give in to dopamine
 
-### To Run Locally:
+Resisting distractions keeps your focus alive.
 
-1. Clone this repository or download the files
-2. Open `index.html` in a web browser
-3. Begin your journey
+Giving in feels good but hurts your focus.
 
-## How to Play
+Emotional states (frustration, boredom) will make it harder as you go.
 
-1. Read the narrative text
-2. Make choices by clicking the options presented
-3. Collect memories throughout your journey
-4. At the end of each playthrough, choose which memory to preserve for your next run
-5. Begin a new playthrough with your preserved memory
-6. Discover how your preserved memories affect the story
+Goal:
+Stay focused and finish your task.
 
-## Technical Details
+🧩 Game Variables
+focusLevel: 0-100 (your mental energy)
 
-- Built with vanilla HTML, CSS, and JavaScript
-- Uses `localStorage` to persist memories between sessions
-- Includes basic analytics tracking for engagement metrics
-- Responsive design that works on desktop and mobile
+distractionRate: how often distractions show up
 
-## Credits
+dopamineHits: tempting distractions that give short-term satisfaction but drain focus
 
-Developed as an MVP based on the Echoes of Choice PRD.
+impulseControl: your ability to resist distractions
 
-## License
+hyperfocusChance: rare chance to get a productivity boost
 
-All rights reserved. 
+emotionalState: random moods affecting gameplay
+
+taskProgress: how much work you’ve actually done
+
+🛠️ How to Run
+Download or clone this repo.
+
+Open index.html in your browser.
+
+That’s it. Play.
+
+📦 Tech Used
+Plain HTML, CSS, JavaScript
+
+Lightweight, fast, no extra libraries.
+
+✅ Features Coming Soon
+Different task difficulties
+
+Better UI/UX animations
+
+Sound effects
+
+Leaderboard (longest focus streak)
+
+🙏 Credits
+Inspired by real ADHD life.
+
+Game design inspired by The Art of Game Design by Jesse Schell.
