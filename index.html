@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruthicc's ADHD Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Intro Screen -->
+        <div id="intro-screen">
+            <h1>Ruthicc's ADHD Simulator</h1>
+            <div class="intro-content">
+                <p>You have 30 minutes to write a simple email. How hard could it be? 🙃</p>
+                <p>Choose between <strong>working</strong> on your email, giving in to <strong>distractions</strong>, or using your one <strong>Monster</strong> energy drink for a focus boost.</p>
+                <p>Your goal: Complete the email before you run out of time or get overwhelmed!</p>
+                <div class="game-rules">
+                    <h3>Game Mechanics:</h3>
+                    <ul>
+                        <li>⏱️ <strong>Time:</strong> Each action uses minutes from your 30-minute limit</li>
+                        <li>📧 <strong>Progress:</strong> Work on the email to increase progress to 100%</li>
+                        <li>🤯 <strong>Overwhelm:</strong> Too many distractions will overload your brain</li>
+                        <li>🔋 <strong>Monster Energy:</strong> Use once for guaranteed progress for 3 turns</li>
+                    </ul>
+                </div>
+                <button id="start-button" class="action-button pulse-animation">START GAME</button>
+            </div>
+        </div>
+
+        <!-- Main Game Screen (hidden initially) -->
+        <div id="game-screen" class="hidden">
+            <div class="game-header">
+                <h1>Ruthicc's ADHD Simulator</h1>
+                <div id="mood-indicator">😌</div>
+            </div>
+
+            <!-- Game Status Bars -->
+            <div class="status-container">
+                <div class="status-wrapper">
+                    <div class="status-label">Email Progress <span id="progress-value">0%</span></div>
+                    <div class="progress-bar-container">
+                        <div id="email-progress-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="status-wrapper">
+                    <div class="status-label">Time Left <span id="time-value">30 min</span></div>
+                    <div class="progress-bar-container">
+                        <div id="time-progress-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="status-wrapper">
+                    <div class="status-label">Overwhelm <span id="overwhelm-value">0/10</span></div>
+                    <div class="progress-bar-container">
+                        <div id="overwhelm-progress-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Game Area with 3-column layout -->
+            <div class="game-content-container">
+                <!-- Left Column - Activity Log -->
+                <div class="game-column left-column">
+                    <div id="game-log-container">
+                        <h3>Activity Log</h3>
+                        <div id="game-log"></div>
+                    </div>
+                    
+                    <!-- Additional Stats for Left Column -->
+                    <div class="additional-stats">
+                        <div class="stat-card">
+                            <div class="stat-title"><i class="fas fa-hourglass-half"></i> Session Stats</div>
+                            <div class="stat-value">Total Distractions: <span id="current-distractions">0</span></div>
+                            <div class="stat-value">Time Efficiency: <span id="time-efficiency">100%</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Middle Column - Email -->
+                <div class="game-column middle-column">
+                    <!-- Email Window -->
+                    <div id="email-container">
+                        <div class="email-header">
+                            <div class="email-control"></div>
+                            <div class="email-control"></div>
+                            <div class="email-control"></div>
+                            <span>New Message</span>
+                        </div>
+                        <div class="email-body">
+                            <div class="email-field">
+                                <span>To:</span>
+                                <input type="text" value="boss@company.com" disabled>
+                            </div>
+                            <div class="email-field">
+                                <span>Subject:</span>
+                                <input type="text" value="Project Update" class="subject-field" disabled>
+                            </div>
+                            <div class="email-content" id="email-content">
+                                <p id="email-text"></p>
+                                <div id="cursor">|</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Actions -->
+                    <div class="game-actions">
+                        <button id="work-button" class="action-button">
+                            <i class="fas fa-keyboard"></i> WORK on Email
+                        </button>
+                        <button id="distraction-button" class="action-button">
+                            <i class="fas fa-random"></i> Get DISTRACTED
+                        </button>
+                        <button id="monster-button" class="action-button">
+                            <i class="fas fa-bolt"></i> Drink MONSTER
+                            <div id="monster-cooldown" class="hidden">3</div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Game Stats -->
+                <div class="game-column right-column">
+                    <!-- Focus and XP Stats -->
+                    <div id="game-stats">
+                        <div class="stat-card">
+                            <div class="stat-title"><i class="fas fa-fire"></i> Focus Streak</div>
+                            <div class="stat-value"><span id="focus-streak">0</span></div>
+                            <div class="stat-meter">
+                                <div id="focus-meter" class="meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-title"><i class="fas fa-brain"></i> XP Earned</div>
+                            <div class="stat-value"><span id="xp-earned">0</span></div>
+                            <div class="stat-meter">
+                                <div id="xp-meter" class="meter-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-title"><i class="fas fa-trophy"></i> Achievements</div>
+                            <div class="miniature-achievements" id="mini-achievements">
+                                <div class="locked-achievement" title="Just Send It"><i class="fas fa-paper-plane"></i></div>
+                                <div class="locked-achievement" title="Hyperfocus Mode"><i class="fas fa-bullseye"></i></div>
+                                <div class="locked-achievement" title="Chaos Child"><i class="fas fa-random"></i></div>
+                                <div class="locked-achievement" title="The Chad"><i class="fas fa-trophy"></i></div>
+                                <div class="locked-achievement" title="Speed Demon"><i class="fas fa-bolt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips Box -->
+                    <div class="tips-box">
+                        <h4><i class="fas fa-lightbulb"></i> ADHD Tip</h4>
+                        <p id="adhd-tip">Building a focus streak will increase your chances of making progress!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Popup -->
+        <div id="event-popup" class="hidden">
+            <div class="event-content">
+                <h3 id="event-title">Random Event!</h3>
+                <p id="event-message">Something happened!</p>
+                <button id="event-button">OK</button>
+            </div>
+        </div>
+
+        <!-- End Game Screen -->
+        <div id="end-screen" class="hidden">
+            <h2 id="end-title">Game Over</h2>
+            <p id="end-message"></p>
+            
+            <div id="game-summary">
+                <h3>Session Summary</h3>
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <span>Email Progress:</span>
+                        <span id="final-progress">0%</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span>Time Spent:</span>
+                        <span id="final-time">0 min</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span>Focus Streak Record:</span>
+                        <span id="final-streak">0</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span>Total Distractions:</span>
+                        <span id="final-distractions">0</span>
+                    </div>
+                </div>
+                
+                <div id="achievement-container">
+                    <h3>Achievements</h3>
+                    <div id="achievements-list"></div>
+                </div>
+                
+                <div class="share-button">
+                    <button id="share-button">
+                        <i class="fas fa-share-alt"></i> Share Results
+                    </button>
+                </div>
+                
+                <button id="restart-button" class="action-button">Play Again</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html> 

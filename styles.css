@@ -1,0 +1,861 @@
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Mono&family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #ff6b2b; /* ADHD orange */
+    --secondary-color: #00b4d8;
+    --accent-color: #7209b7;
+    --background-color: #f5f5f5;
+    --text-color: #333333;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+    --monster-color: #39ff14; /* Energy drink neon green */
+    --email-bg: #ffffff;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --achievement-locked: #dcdcdc;
+    --achievement-unlocked: #ffeb3b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    height: 100vh; /* Full viewport height */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+h1, h2, h3, h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Container and Layout */
+#game-container {
+    max-width: 1200px;
+    margin: 0 auto; /* Removed top/bottom margin */
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+    min-height: 100vh; /* Fill viewport height */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevent content from spilling out */
+}
+
+/* Intro Screen */
+#intro-screen {
+    text-align: center;
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#intro-screen h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+    color: var(--primary-color);
+}
+
+.intro-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.intro-content p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.game-rules {
+    background-color: rgba(255, 107, 43, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.game-rules ul {
+    list-style-type: none;
+}
+
+.game-rules li {
+    margin-bottom: 0.5rem;
+}
+
+/* Game Screen */
+#game-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Make game screen full height */
+    overflow: hidden; /* Prevent content from spilling out */
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem; /* Reduced margin */
+    padding: 0.5rem 0;
+}
+
+.game-header h1 {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+}
+
+#mood-indicator {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* Status Bars */
+.status-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem; /* Reduced gap */
+    margin-bottom: 0.75rem; /* Reduced margin */
+}
+
+.status-wrapper {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0.6rem; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.status-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.progress-bar-container {
+    height: 8px; /* Reduced height */
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+#email-progress-bar {
+    background-color: var(--secondary-color);
+}
+
+#time-progress-bar {
+    background-color: var(--primary-color);
+}
+
+#overwhelm-progress-bar {
+    background-color: var(--danger-color);
+}
+
+/* 3-Column Layout */
+.game-content-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 0.75rem; /* Reduced gap */
+    flex: 1; /* Take remaining space */
+    overflow: hidden; /* Prevent content from spilling out */
+    max-height: calc(100vh - 160px); /* Limit height to fit in viewport */
+    min-height: 0; /* Allow grid to shrink if needed */
+}
+
+.game-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Reduced gap */
+    min-height: 0; /* Allow content to shrink */
+    max-height: 100%; /* Limit height */
+}
+
+.left-column, .right-column {
+    max-width: 300px;
+    overflow: hidden; /* Contain overflow */
+}
+
+.middle-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0; /* Allow content to shrink */
+}
+
+/* Email Container */
+#email-container {
+    background-color: var(--email-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: 0.75rem; /* Reduced margin */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0; /* Important for allowing content to be scrollable */
+}
+
+.email-header {
+    background-color: #f1f1f1;
+    padding: 0.6rem; /* Reduced padding */
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.email-control {
+    width: 10px; /* Slightly smaller */
+    height: 10px; /* Slightly smaller */
+    border-radius: 50%;
+    margin-right: 5px;
+    background-color: #ff5f57;
+}
+
+.email-control:nth-child(2) {
+    background-color: #ffbd2e;
+}
+
+.email-control:nth-child(3) {
+    background-color: #28ca41;
+}
+
+.email-header span {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.email-body {
+    padding: 0.75rem; /* Reduced padding */
+    overflow-y: auto; /* Make email body scrollable */
+    flex: 1;
+}
+
+.email-field {
+    display: flex;
+    margin-bottom: 0.6rem; /* Reduced margin */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.6rem; /* Reduced padding */
+}
+
+.email-field span {
+    width: 70px;
+    color: #666;
+}
+
+.email-field input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    background-color: transparent;
+    color: #333;
+}
+
+.subject-field {
+    margin-left: 15px; /* Add spacing between 'Subject:' and 'Project Update' */
+}
+
+.email-content {
+    min-height: 120px; /* Reduced height */
+    font-family: 'Comic Mono', monospace;
+    line-height: 1.5;
+    position: relative;
+    flex: 1;
+}
+
+#email-text {
+    white-space: pre-wrap;
+}
+
+#cursor {
+    display: inline-block;
+    color: #333;
+    font-weight: bold;
+    animation: blink 1s infinite;
+    position: relative;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Game Actions */
+.game-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem; /* Reduced gap */
+    padding: 0.5rem 0; /* Add some padding */
+    margin-top: auto; /* Push to bottom */
+    background-color: var(--card-bg); /* Ensure background is solid */
+    z-index: 10; /* Ensure it stays on top */
+}
+
+.action-button {
+    padding: 0.75rem; /* Reduced padding */
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem; /* Slightly smaller font */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.action-button:active {
+    transform: translateY(1px);
+}
+
+.action-button i {
+    margin-bottom: 0.4rem; /* Reduced margin */
+    font-size: 1.1rem; /* Slightly smaller */
+}
+
+#work-button {
+    background-color: var(--secondary-color);
+}
+
+#distraction-button {
+    background-color: var(--primary-color);
+}
+
+#monster-button {
+    background-color: var(--accent-color);
+    position: relative;
+}
+
+#monster-button[data-uses]::after {
+    content: attr(data-uses);
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+#monster-cooldown {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--monster-color);
+    color: black;
+    width: 22px; /* Slightly smaller */
+    height: 22px; /* Slightly smaller */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Game Log */
+#game-log-container {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 0.75rem; /* Reduced padding */
+    box-shadow: 0 2px 10px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0; /* Allow container to shrink */
+    max-height: 100%;
+    height: 100%; /* Ensure it takes full height available */
+    overflow: hidden; /* Contain overflow */
+}
+
+#game-log-container h3 {
+    margin-bottom: 0.4rem; /* Reduced margin */
+    font-size: 1rem; /* Smaller font */
+}
+
+#game-log {
+    font-size: 0.85rem; /* Smaller font */
+    overflow-y: auto; /* Make the log scrollable */
+    flex: 1;
+    padding-right: 5px;
+    min-height: 0; /* Allow content to shrink */
+    max-height: calc(100% - 2rem); /* Allow space for the header */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    scrollbar-width: thin; /* For Firefox */
+}
+
+/* Custom scrollbar for Webkit browsers */
+#game-log::-webkit-scrollbar {
+    width: 6px;
+}
+
+#game-log::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#game-log::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+#game-log::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.log-entry {
+    margin-bottom: 0.4rem; /* Reduced margin */
+    padding-bottom: 0.4rem; /* Reduced padding */
+    border-bottom: 1px solid #eee;
+}
+
+.log-work {
+    color: var(--secondary-color);
+}
+
+.log-distraction {
+    color: var(--primary-color);
+}
+
+.log-monster {
+    color: var(--accent-color);
+}
+
+.log-event {
+    color: var(--warning-color);
+    font-style: italic;
+}
+
+/* Stats Cards */
+.stat-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 0.75rem; /* Reduced padding */
+    box-shadow: 0 2px 10px var(--shadow-color);
+    margin-bottom: 0.75rem; /* Reduced margin */
+}
+
+.stat-title {
+    font-weight: 600;
+    margin-bottom: 0.4rem; /* Reduced margin */
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem; /* Reduced gap */
+    font-size: 0.95rem; /* Smaller font */
+}
+
+.stat-value {
+    font-size: 1rem; /* Smaller font */
+    margin-bottom: 0.4rem; /* Reduced margin */
+}
+
+.stat-meter {
+    height: 7px; /* Smaller height */
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.4rem; /* Reduced margin */
+}
+
+.meter-fill {
+    height: 100%;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+#focus-meter {
+    background-color: var(--primary-color);
+}
+
+#xp-meter {
+    background-color: var(--secondary-color);
+}
+
+/* Miniature Achievements */
+.miniature-achievements {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.4rem; /* Reduced margin */
+}
+
+.locked-achievement, 
+.unlocked-achievement {
+    width: 26px; /* Smaller */
+    height: 26px; /* Smaller */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem; /* Smaller font */
+    transition: all 0.3s ease;
+}
+
+.locked-achievement {
+    background-color: var(--achievement-locked);
+    color: #999;
+}
+
+.unlocked-achievement {
+    background-color: var(--achievement-unlocked);
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* Tips Box */
+.tips-box {
+    background-color: rgba(0, 180, 216, 0.1);
+    border-left: 3px solid var(--secondary-color);
+    padding: 0.75rem; /* Reduced padding */
+    border-radius: 0 8px 8px 0;
+}
+
+.tips-box h4 {
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem; /* Reduced gap */
+    margin-bottom: 0.4rem; /* Reduced margin */
+    font-size: 0.85rem; /* Smaller font */
+}
+
+.tips-box p {
+    font-size: 0.85rem; /* Smaller font */
+}
+
+/* Additional Stats for the left column */
+.additional-stats .stat-card {
+    margin-top: 0.4rem; /* Reduced margin */
+}
+
+/* Event Popup */
+#event-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.event-content {
+    background-color: white;
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 12px;
+    text-align: center;
+    max-width: 90%;
+    width: 380px; /* Slightly smaller */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: popIn 0.3s forwards;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#event-title {
+    color: var(--accent-color);
+    margin-bottom: 0.75rem; /* Reduced margin */
+    font-size: 1.3rem; /* Smaller font */
+}
+
+#event-message {
+    font-size: 1rem; /* Smaller font */
+    margin-bottom: 1.2rem; /* Reduced margin */
+}
+
+#event-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.7rem 1.8rem; /* Reduced padding */
+    font-size: 0.95rem; /* Smaller font */
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+#event-button:hover {
+    background-color: #5d08a0;
+}
+
+/* End Screen */
+#end-screen {
+    text-align: center;
+    padding: 1.5rem; /* Reduced padding */
+    animation: fadeIn 0.5s forwards;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#end-title {
+    font-size: 2rem; /* Smaller font */
+    margin-bottom: 0.75rem; /* Reduced margin */
+}
+
+#end-message {
+    font-size: 1.1rem; /* Smaller font */
+    margin-bottom: 1.5rem; /* Reduced margin */
+}
+
+#game-summary {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem; /* Reduced gap */
+    margin-bottom: 1.5rem; /* Reduced margin */
+}
+
+.summary-stat {
+    background-color: #f8f8f8;
+    padding: 0.8rem; /* Reduced padding */
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+#achievement-container {
+    margin-bottom: 1.5rem; /* Reduced margin */
+}
+
+#achievements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem; /* Reduced gap */
+    justify-content: center;
+}
+
+.achievement {
+    background-color: rgba(114, 9, 183, 0.1);
+    padding: 0.7rem 1.2rem; /* Reduced padding */
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem; /* Smaller font */
+}
+
+.achievement i {
+    margin-right: 0.4rem; /* Reduced margin */
+    color: var(--accent-color);
+}
+
+.share-button {
+    margin-bottom: 1.2rem; /* Reduced margin */
+}
+
+#share-button {
+    background-color: #1da1f2;
+    color: white;
+    padding: 0.7rem 1.2rem; /* Reduced padding */
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.95rem; /* Smaller font */
+}
+
+#share-button:hover {
+    background-color: #0d8fd9;
+}
+
+#restart-button {
+    background-color: var(--primary-color);
+    padding: 0.8rem 1.8rem; /* Reduced padding */
+    font-size: 1rem; /* Smaller font */
+}
+
+/* Animations and Effects */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.shake-animation {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.monster-active {
+    filter: hue-rotate(270deg) brightness(1.2);
+    transition: all 0.3s ease;
+}
+
+/* High Contrast Mode (can be toggled with JS) */
+.high-contrast {
+    --primary-color: #FF4500;
+    --secondary-color: #007BFF;
+    --accent-color: #9400D3;
+    --background-color: #000000;
+    --text-color: #FFFFFF;
+    --card-bg: #121212;
+    --email-bg: #1E1E1E;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+.high-contrast #email-container {
+    border: 1px solid #444;
+}
+
+.high-contrast .email-field {
+    border-bottom: 1px solid #444;
+}
+
+.high-contrast .email-header {
+    background-color: #2A2A2A;
+}
+
+.high-contrast .status-wrapper, 
+.high-contrast .stat,
+.high-contrast .summary-stat,
+.high-contrast .stat-card {
+    background-color: #2A2A2A;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .game-content-container {
+        max-height: calc(100vh - 140px); /* Slightly smaller max height */
+    }
+    
+    .game-actions {
+        padding-bottom: 1rem; /* Add padding at bottom for mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        margin: 0; /* Remove margins */
+        padding: 0.75rem;
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .game-content-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+        max-height: none;
+        height: calc(100vh - 190px);
+        gap: 0.5rem;
+    }
+    
+    .left-column {
+        grid-row: 1;
+        max-height: 150px; /* Limit log height on mobile */
+        overflow: hidden;
+    }
+    
+    .middle-column {
+        grid-row: 2;
+        flex: 1;
+        min-height: 0;
+    }
+    
+    .right-column {
+        grid-row: 3;
+        display: none; /* Hide stats on mobile to save space */
+    }
+    
+    .status-container {
+        grid-template-columns: 1fr 1fr 1fr; /* Keep status bars in one row */
+        margin-bottom: 0.5rem;
+    }
+    
+    .status-wrapper {
+        padding: 0.5rem;
+    }
+    
+    .game-actions {
+        grid-template-columns: repeat(3, 1fr); /* Keep buttons in one row */
+    }
+    
+    .action-button {
+        padding: 0.6rem;
+    }
+    
+    .action-button i {
+        margin-bottom: 0.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    #mood-indicator {
+        font-size: 1.5rem;
+    }
+    
+    .action-button {
+        font-size: 0.85rem;
+    }
+    
+    .email-field span {
+        width: 55px;
+    }
+} 
